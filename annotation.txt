@@ -1,0 +1,16 @@
+Funções:
+Bot de proteção contra Kick e Ban
+Ban, kick, mute e warn por bot com cargo especifico
+Log de ban, kick, mute e warn do adm
+Log de warns do user 
+4 warns = ban
+critical warn = 2 warns
+
+Comandos:
+ban
+kick
+mute (prisão)
+warn
+criticalwarn
+warns
+log
