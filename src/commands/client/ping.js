@@ -1,4 +1,9 @@
-const { EmbedBuilder } = require("discord.js");
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  MessageFlags,
+  ContainerBuilder,
+} = require("discord.js");
 
 module.exports = {
   name: "ping",
@@ -6,7 +11,14 @@ module.exports = {
   permission: 0,
 
   async execute(client, message) {
-    const sent = await message.reply("🏓 Calculando latências...");
+    const latencyText = new TextDisplayBuilder().setContent(
+      "🏓 Pong! Calculando latências..."
+    );
+
+    const sent = await message.reply({
+      components: [latencyText],
+      flags: [MessageFlags.IsComponentsV2],
+    });
 
     const restLatency = sent.createdTimestamp - message.createdTimestamp;
 
@@ -28,11 +40,23 @@ module.exports = {
       dbLatency = "Erro";
     }
 
-    sent.edit(
-      `📡 **Latências do sistema:**\n\n` +
-        `🌐 **Latência REST do Discord:** ${restLatency.toFixed(2)}ms\n` +
-        `🔌 **Latência do Discord Gateway (WS):** ${wsLatency}ms\n` +
-        `🗄️ **Tempo de resposta da Base de Dados:** ${dbLatency}ms`
+    const title = new TextDisplayBuilder().setContent(
+      "### Latências do sistema"
     );
+    const separator = new SeparatorBuilder().setDivider(true);
+    const text = new TextDisplayBuilder().setContent(
+      `- Latência REST do Discord: \`${restLatency.toFixed(
+        2
+      )}\`ms\n- Latência do Discord Gateway (WS): \`${wsLatency}\`ms\n- Tempo de resposta da Base de Dados: \`${dbLatency}\`ms`
+    );
+    const container = new ContainerBuilder()
+      .setAccentColor(client.color)
+      .addTextDisplayComponents(title)
+      .addSeparatorComponents(separator)
+      .addTextDisplayComponents(text);
+
+    sent.edit({
+      components: [container],
+    });
   },
 };

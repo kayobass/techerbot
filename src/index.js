@@ -19,6 +19,7 @@ process.on("unhandledRejection", async (reason, promise) => {
 
 (async () => {
   client.db = await connectDB();
+  client.color = parseInt(process.env.COLOR, 16);
 
   loadCommands(client);
   loadEvents(client);

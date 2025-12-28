@@ -11,7 +11,7 @@ async function connectDB() {
   await client.connect();
   console.log("🗄️ Conectado ao MongoDB Atlas");
 
-  db = client.db(process.env.CLIENT_ID); // nome do banco
+  db = client.db(process.env.CLIENT_ID);
   return db;
 }
 
