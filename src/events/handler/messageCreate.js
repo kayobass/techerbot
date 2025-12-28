@@ -21,7 +21,22 @@ module.exports = {
 
     const command = client.commands.get(commandName);
 
-    // sistema de permissões depois
+    const permissionLevel = command.permission ?? 0;
+
+    if (permissionLevel > 0) {
+      const memberRoles = message.member.roles.cache;
+
+      const permissionRoles = {
+        1: process.env.ROLE_WARN,
+        2: process.env.ROLE_MUTE,
+        3: process.env.ROLE_KICK,
+        4: process.env.ROLE_BAN,
+      };
+
+      const requiredRoleId = permissionRoles[permissionLevel];
+
+      if (!memberRoles.has(requiredRoleId)) return;
+    }
 
     try {
       await command.execute(client, message, args);
