@@ -3,7 +3,5 @@ module.exports = {
   aliases: [""],
   permission: 4,
 
-  async execute(client, message) {
-    console.log();
-  },
+  async execute(client, message) {},
 };

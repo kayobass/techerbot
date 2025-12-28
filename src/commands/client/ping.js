@@ -4,6 +4,8 @@ const {
   MessageFlags,
   ContainerBuilder,
 } = require("discord.js");
+const mongoose = require("mongoose");
+const color = require("../../color.json");
 
 module.exports = {
   name: "ping",
@@ -21,7 +23,6 @@ module.exports = {
     });
 
     const restLatency = sent.createdTimestamp - message.createdTimestamp;
-
     const wsLatency = Math.round(client.ws.ping);
 
     let dbLatency = "N/A";
@@ -29,8 +30,10 @@ module.exports = {
     try {
       const start = process.hrtime.bigint();
 
-      if (client.db) {
-        await client.db.command({ ping: 1 });
+      if (mongoose.connection.readyState === 1) {
+        await mongoose.connection.db.command({ ping: 1 });
+      } else {
+        throw new Error("MongoDB não conectado");
       }
 
       const end = process.hrtime.bigint();
@@ -41,16 +44,19 @@ module.exports = {
     }
 
     const title = new TextDisplayBuilder().setContent(
-      "### Latências do sistema"
+      "### Latências do Sistema"
     );
+
     const separator = new SeparatorBuilder().setDivider(true);
+
     const text = new TextDisplayBuilder().setContent(
-      `- Latência REST do Discord: \`${restLatency.toFixed(
-        2
-      )}\`ms\n- Latência do Discord Gateway (WS): \`${wsLatency}\`ms\n- Tempo de resposta da Base de Dados: \`${dbLatency}\`ms`
+      `- Latência REST do Discord: \`${restLatency.toFixed(2)}\`ms
+- Latência do Discord Gateway (WS): \`${wsLatency}\`ms
+- Tempo de resposta da Base de Dados: \`${dbLatency}\`ms`
     );
+
     const container = new ContainerBuilder()
-      .setAccentColor(client.color)
+      .setAccentColor(color.default)
       .addTextDisplayComponents(title)
       .addSeparatorComponents(separator)
       .addTextDisplayComponents(text);

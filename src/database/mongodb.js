@@ -1,18 +1,18 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
 
-const uri = process.env.MONGO_URI;
-const client = new MongoClient(uri);
-
-let db;
+let isConnected = false;
 
 async function connectDB() {
-  if (db) return db;
+  if (isConnected) return;
 
-  await client.connect();
-  console.log("🗄️ Conectado ao MongoDB Atlas");
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
 
-  db = client.db(process.env.CLIENT_ID);
-  return db;
+    isConnected = true;
+    console.log("🗄️ Conectado ao MongoDB Atlas (Mongoose)");
+  } catch (err) {
+    console.error("❌ Erro ao conectar no MongoDB", err);
+  }
 }
 
 module.exports = connectDB;

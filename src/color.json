@@ -1,0 +1,7 @@
+{
+  "ban": "ff0015",
+  "kick": "ff5500",
+  "mute": "8c00ff",
+  "criticalwarn": "ff00f7",
+  "default": "ffdd30"
+}
