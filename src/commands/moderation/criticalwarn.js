@@ -4,8 +4,8 @@ const ModLog = require("../../database/model/modLog");
 const color = require("../../color.json");
 
 module.exports = {
-  name: "warn",
-  aliases: ["w"],
+  name: "criticalwarn",
+  aliases: ["cw"],
   permission: 1,
 
   async execute(client, message, args) {
@@ -40,37 +40,44 @@ module.exports = {
 
     const reason = args.slice(1).join(" ") || "Sem motivo";
 
-    const userData = await UserWarn.findOne({
+    let userData = await UserWarn.findOne({
       userId: user.id,
       guildId: message.guild.id,
     });
+    if (!userData) {
+      userData = await UserWarn.create({
+        userId: user.id,
+        guildId: message.guild.id,
+        warns: [],
+      });
+    }
+
     const nextWarnId = userData ? userData.warns.length + 1 : 1;
 
-    const warnData = {
-      warnId: nextWarnId,
-      staffId: staff.id,
-      reason,
-    };
+    for (let i = 0; i < 2; i++) {
+      const warnData = {
+        warnId: nextWarnId + i,
+        staffId: staff.id,
+        reason,
+      };
+      userData.warns.push(warnData);
+    }
 
-    await UserWarn.findOneAndUpdate(
-      { userId: user.id, guildId: message.guild.id },
-      { $push: { warns: warnData } },
-      { upsert: true }
-    );
+    await userData.save();
 
     await ModLog.create({
-      action: "WARN",
+      action: "CRITICAL_WARN",
       userId: user.id,
       staffId: staff.id,
       reason,
       guildId: message.guild.id,
     }).then(() => {
       const embedLog = new EmbedBuilder()
-        .setTitle("📝 Registro de Moderação - Warn")
+        .setTitle("📝 Registro de Moderação - Critical Warn")
         .setDescription(
-          `**Usuário:** <@${user.id}> (\`${user.id}\`) [\`${nextWarnId}\` warns]\n**Staff:** <@${staff.id}> (\`${staff.id}\`)\n**Motivo:** \`${reason}\``
+          `**Usuário:** <@${user.id}> (\`${user.id}\`) [\`${userData.warns.length}\` warns]\n**Staff:** <@${staff.id}> (\`${staff.id}\`)\n**Motivo:** \`${reason}\``
         )
-        .setColor(color.default)
+        .setColor(color.criticalwarn)
         .setThumbnail(user.displayAvatarURL())
         .setFooter({
           text: staff.user.globalName,
@@ -100,12 +107,12 @@ module.exports = {
         name: staff.user.globalName || staff.user.username,
         iconURL: staff.user.displayAvatarURL(),
       })
-      .setTitle("⚠️ Warn")
-      .setColor(color.default)
+      .setTitle("⚠️ Critical Warn")
+      .setColor(color.criticalwarn)
       .setDescription(
-        `-> O usuário <@${user.id}> (\`${user.id}\`) foi advertido!\n**💼 Motivo:** \`${reason}\``
+        `-> O usuário <@${user.id}> (\`${user.id}\`) recebeu um **critical warn**!\n**💼 Motivo:** \`${reason}\``
       )
-      .setFooter({ text: `Esse é o warn número: ${nextWarnId}` })
+      .setFooter({ text: `Esse é o warn número: ${userData.warns.length}` })
       .setTimestamp();
 
     message
