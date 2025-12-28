@@ -8,7 +8,7 @@ const {
 module.exports = {
   name: "ping",
   aliases: ["p"],
-  permission: 2,
+  permission: 0,
 
   async execute(client, message) {
     const latencyText = new TextDisplayBuilder().setContent(
