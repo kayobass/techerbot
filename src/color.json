@@ -3,5 +3,6 @@
   "kick": "ff5500",
   "prison": "8c00ff",
   "criticalwarn": "ff00f7",
+  "timeout": "2c4225",
   "default": "ffdd30"
 }

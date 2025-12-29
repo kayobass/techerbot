@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const ModLog = require("../../database/model/modLog");
 const color = require("../../color.json");
 
@@ -56,7 +56,7 @@ module.exports = {
           const embedLog = new EmbedBuilder()
             .setTitle("📝 Registro de Moderação - Prison")
             .setDescription(
-              `**Usuário:** <@${user.id}> (\`${user.id}\`)\n**Staff:** <@${staff.id}> (\`${staff.id}\`)\n**Motivo:** \`${reason}\``
+              `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``
             )
             .setColor(color.prison)
             .setThumbnail(user.displayAvatarURL())
@@ -76,7 +76,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: staff.user.globalName || staff.user.username,
+            name: staff.user.globalName,
             iconURL: staff.user.displayAvatarURL(),
           })
           .setTitle("🔇 Prison")
@@ -84,6 +84,10 @@ module.exports = {
           .setDescription(
             `-> O usuário <@${user.id}> (\`${user.id}\`) foi preso!\n**💼 Motivo:** \`${reason}\``
           )
+          .setFooter({
+            text: `${user.globalName} está preso`,
+            iconURL: user.displayAvatarURL(),
+          })
           .setTimestamp();
 
         message

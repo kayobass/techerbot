@@ -75,7 +75,7 @@ module.exports = {
       const embedLog = new EmbedBuilder()
         .setTitle("📝 Registro de Moderação - Critical Warn")
         .setDescription(
-          `**Usuário:** <@${user.id}> (\`${user.id}\`) [\`${userData.warns.length}\` warns]\n**Staff:** <@${staff.id}> (\`${staff.id}\`)\n**Motivo:** \`${reason}\``
+          `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`) [\`${userData.warns.length}\` warns]\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**Motivo:** \`${reason}\``
         )
         .setColor(color.criticalwarn)
         .setThumbnail(user.displayAvatarURL())
@@ -104,7 +104,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: staff.user.globalName || staff.user.username,
+        name: staff.user.globalName,
         iconURL: staff.user.displayAvatarURL(),
       })
       .setTitle("⚠️ Critical Warn")
@@ -112,7 +112,10 @@ module.exports = {
       .setDescription(
         `-> O usuário <@${user.id}> (\`${user.id}\`) recebeu um **critical warn**!\n**💼 Motivo:** \`${reason}\``
       )
-      .setFooter({ text: `Esse é o warn número: ${userData.warns.length}` })
+      .setFooter({
+        text: `Esse é o warn número: ${userData.warns.length}`,
+        iconURL: user.displayAvatarURL(),
+      })
       .setTimestamp();
 
     message

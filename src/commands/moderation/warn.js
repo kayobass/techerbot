@@ -68,7 +68,7 @@ module.exports = {
       const embedLog = new EmbedBuilder()
         .setTitle("📝 Registro de Moderação - Warn")
         .setDescription(
-          `**Usuário:** <@${user.id}> (\`${user.id}\`) [\`${nextWarnId}\` warns]\n**Staff:** <@${staff.id}> (\`${staff.id}\`)\n**Motivo:** \`${reason}\``
+          `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`) [\`${nextWarnId}\` warns]\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``
         )
         .setColor(color.default)
         .setThumbnail(user.displayAvatarURL())
@@ -97,15 +97,22 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: staff.user.globalName || staff.user.username,
+        name: staff.user.globalName,
         iconURL: staff.user.displayAvatarURL(),
       })
       .setTitle("⚠️ Warn")
+      .setAuthor({
+        name: staff.user.globalName,
+        iconURL: staff.user.displayAvatarURL(),
+      })
       .setColor(color.default)
       .setDescription(
         `-> O usuário <@${user.id}> (\`${user.id}\`) foi advertido!\n**💼 Motivo:** \`${reason}\``
       )
-      .setFooter({ text: `Esse é o warn número: ${nextWarnId}` })
+      .setFooter({
+        text: `Esse é o warn número: ${nextWarnId}`,
+        iconURL: user.displayAvatarURL(),
+      })
       .setTimestamp();
 
     message

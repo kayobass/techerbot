@@ -48,7 +48,7 @@ module.exports = {
         const embedLog = new EmbedBuilder()
           .setTitle("📝 Registro de Moderação - Unprison")
           .setDescription(
-            `**Usuário:** <@${user.id}> (\`${user.id}\`)\n**Staff:** <@${staff.id}> (\`${staff.id}\`)\n**Motivo:** \`${reason}\``
+            `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``
           )
           .setColor(color.prison)
           .setThumbnail(user.displayAvatarURL())

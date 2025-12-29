@@ -9,9 +9,9 @@ const ModLog = require("../../database/model/modLog");
 const color = require("../../color.json");
 
 module.exports = {
-  name: "kick",
-  aliases: ["k"],
-  permission: 3,
+  name: "ban",
+  aliases: ["b"],
+  permission: 4,
 
   async execute(client, message, args) {
     const user =
@@ -26,39 +26,41 @@ module.exports = {
     }
 
     if (user.id === message.author.id) {
-      return message.reply("❌ Você não pode se auto expulsar.");
+      return message.reply("❌ Você não pode se auto banir.");
     }
 
     if (
       user.bot &&
       !message.member.permissions.has(PermissionFlagsBits.ManageGuild)
     ) {
-      return message.reply("❌ Você não pode expulsar bots.");
+      return message.reply("❌ Você não pode banir bots.");
     }
 
     const member = message.guild.members.cache.get(user.id);
-    const staffPosition = staff.roles.highest.position;
-    const userPosition = member.roles.highest.position;
 
-    if (userPosition >= staffPosition) {
-      return message.reply(
-        "❌ Você não pode expulsar alguém com cargo igual ou maior que o seu."
-      );
+    if (member) {
+      const staffPosition = staff.roles.highest.position;
+      const userPosition = member.roles.highest.position;
+
+      if (userPosition >= staffPosition) {
+        return message.reply(
+          "❌ Você não pode banir alguém com cargo igual ou maior que o seu."
+        );
+      }
     }
 
     const reason = args.slice(1).join(" ") || "Sem motivo";
-
     const expiresAt = Math.floor((Date.now() + 32_000) / 1000);
 
     const confirmEmbed = new EmbedBuilder()
-      .setTitle("⚠️ Confirmar Kick")
+      .setTitle("⚠️ Confirmar Ban")
       .setDescription(
-        `Tem certeza que deseja expulsar <@${user.id}> (\`${user.id}\`)?\n` +
-          `**💼 Motivo:** \`${reason}\`\n\n` +
+        `Tem certeza que deseja banir <@${user.id}> (\`${user.id}\`)?\n` +
+          `**Motivo:** \`${reason}\`\n\n` +
           `⏳ Restam <t:${expiresAt}:R> para tomar uma decisão.`
       )
       .setThumbnail(user.displayAvatarURL())
-      .setColor(color.kick)
+      .setColor(color.ban)
       .setFooter({
         text: staff.user.globalName,
         iconURL: staff.user.displayAvatarURL(),
@@ -66,11 +68,11 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setCustomId("kick_confirm")
+        .setCustomId("ban_confirm")
         .setLabel("Confirmar")
         .setStyle(ButtonStyle.Success),
       new ButtonBuilder()
-        .setCustomId("kick_cancel")
+        .setCustomId("ban_cancel")
         .setLabel("Cancelar")
         .setStyle(ButtonStyle.Danger)
     );
@@ -89,24 +91,24 @@ module.exports = {
     collector.on("collect", async (interaction) => {
       await interaction.deferUpdate();
 
-      if (interaction.customId === "kick_confirm") {
-        await member
-          .kick(`${staff.user.username} -> ${reason}`)
+      if (interaction.customId === "ban_confirm") {
+        await message.guild.members
+          .ban(user.id, { reason: `${staff.user.username} -> ${reason}` })
           .catch(() => null);
 
         await ModLog.create({
-          action: "KICK",
+          action: "BAN",
           userId: user.id,
           staffId: staff.id,
           reason,
           guildId: message.guild.id,
         }).then(() => {
           const embedLog = new EmbedBuilder()
-            .setTitle("📝 Registro de Moderação - Kick")
+            .setTitle("📝 Registro de Moderação - Ban")
             .setDescription(
               `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``
             )
-            .setColor(color.kick)
+            .setColor(color.ban)
             .setThumbnail(user.displayAvatarURL())
             .setFooter({
               text: staff.user.globalName,
@@ -123,17 +125,17 @@ module.exports = {
         });
 
         const successEmbed = new EmbedBuilder()
-          .setTitle("❌ Kick")
+          .setTitle("🔨 Ban")
           .setAuthor({
             name: staff.user.globalName,
             iconURL: staff.user.displayAvatarURL(),
           })
-          .setColor(color.kick)
+          .setColor(color.ban)
           .setDescription(
-            `O usuário <@${user.id}> (\`${user.id}\`) foi expulso!\n**💼 Motivo:** \`${reason}\``
+            `O usuário <@${user.id}> (\`${user.id}\`) foi banido!\n**💼 Motivo:** \`${reason}\``
           )
           .setFooter({
-            text: `${user.globalName} está expulso`,
+            text: `${user.globalName} está banido`,
             iconURL: user.displayAvatarURL(),
           })
           .setTimestamp();
@@ -141,11 +143,11 @@ module.exports = {
         await sent.edit({ embeds: [successEmbed], components: [] });
       }
 
-      if (interaction.customId === "kick_cancel") {
+      if (interaction.customId === "ban_cancel") {
         const cancelEmbed = new EmbedBuilder()
-          .setTitle("❎ Kick cancelado")
-          .setColor(color.kick)
-          .setDescription("A ação de kick foi cancelada.")
+          .setTitle("❎ Ban cancelado")
+          .setColor(color.ban)
+          .setDescription("A ação de ban foi cancelada.")
           .setTimestamp();
 
         await sent.edit({ embeds: [cancelEmbed], components: [] });
