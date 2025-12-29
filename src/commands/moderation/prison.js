@@ -6,6 +6,7 @@ module.exports = {
   name: "prison",
   aliases: ["p"],
   permission: 2,
+  description: "Prende um usuário na prisão do servidor",
 
   async execute(client, message, args) {
     const user =

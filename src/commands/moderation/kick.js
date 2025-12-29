@@ -12,6 +12,7 @@ module.exports = {
   name: "kick",
   aliases: ["k"],
   permission: 3,
+  description: "Expulsa um usuário do servidor",
 
   async execute(client, message, args) {
     const user =

@@ -6,6 +6,7 @@ module.exports = {
   name: "unban",
   aliases: ["ub"],
   permission: 4,
+  description: "Desbane um usuário do servidor",
 
   async execute(client, message, args) {
     const staff = message.member;

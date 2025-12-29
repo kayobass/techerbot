@@ -7,6 +7,7 @@ module.exports = {
   name: "criticalwarn",
   aliases: ["cw"],
   permission: 1,
+  description: "Dá um critical warn a um usuário (equivale a 2 warns)",
 
   async execute(client, message, args) {
     const user =

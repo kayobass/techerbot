@@ -7,6 +7,7 @@ module.exports = {
   name: "warn",
   aliases: ["w"],
   permission: 1,
+  description: "Dá um warn a um usuário",
 
   async execute(client, message, args) {
     const user =

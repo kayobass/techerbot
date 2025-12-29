@@ -12,6 +12,7 @@ module.exports = {
   name: "timeout",
   aliases: ["t"],
   permission: 2,
+  description: "Prende um usuário na prisão do servidor",
 
   async execute(client, message, args) {
     const user =

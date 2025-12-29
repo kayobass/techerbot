@@ -6,11 +6,13 @@ const {
 } = require("discord.js");
 const mongoose = require("mongoose");
 const color = require("../../color.json");
+const { description } = require("./help");
 
 module.exports = {
   name: "ping",
   aliases: ["p"],
   permission: 0,
+  description: "Verifica a latência do bot e da base de dados",
 
   async execute(client, message) {
     const latencyText = new TextDisplayBuilder().setContent(

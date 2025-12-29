@@ -12,6 +12,7 @@ module.exports = {
   name: "ban",
   aliases: ["b"],
   permission: 4,
+  description: "Bane um usuário do servidor",
 
   async execute(client, message, args) {
     const user =

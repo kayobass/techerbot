@@ -5,7 +5,6 @@ module.exports = async function createPaste({
   description,
   content,
   username,
-  expires,
 }) {
   if (!content || content.length < 1) {
     console.error("Content inválido para o paste");
@@ -25,7 +24,6 @@ module.exports = async function createPaste({
             languageId: 1,
           },
         ],
-        //expires: expires || "24h"
       },
       {
         headers: {

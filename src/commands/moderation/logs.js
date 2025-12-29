@@ -12,6 +12,7 @@ module.exports = {
   name: "logs",
   aliases: ["lg"],
   permission: 4,
+  description: "Exibe os logs de moderação de um staff",
 
   async execute(client, message, args) {
     const staffUser =
@@ -46,7 +47,6 @@ module.exports = {
       description: `Registros de moderação — ${message.guild.name}`,
       content,
       username: staffUser.username,
-      expires: "24h",
     });
 
     if (!url) {

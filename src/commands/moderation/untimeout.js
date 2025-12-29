@@ -6,6 +6,7 @@ module.exports = {
   name: "untimeout",
   aliases: ["ut"],
   permission: 2,
+  description: "Libera um usuário da prisão do servidor",
 
   async execute(client, message, args) {
     const user =
