@@ -58,7 +58,7 @@ module.exports = {
     );
 
     const container = new ContainerBuilder()
-      .setAccentColor(color.default)
+      .setAccentColor(parseInt(color.default, 16))
       .addTextDisplayComponents(title)
       .addSeparatorComponents(separator)
       .addTextDisplayComponents(text);
