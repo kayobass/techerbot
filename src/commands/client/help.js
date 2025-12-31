@@ -32,6 +32,7 @@ module.exports = {
       .setTitle("📖 Central de Ajuda")
       .setDescription(description)
       .setColor(color.default)
+      .setThumbnail(message.guild.iconURL({ dynamic: true, size: 1024 }))
       .setFooter({
         text: `Total de comandos: ${commandsMap.size}`,
         iconURL: client.user.displayAvatarURL(),
