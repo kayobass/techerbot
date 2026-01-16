@@ -4,7 +4,7 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
 
-  execute(client) {
+  async execute(client) {
     console.log(`✅ ${client.user.tag} está online!`);
 
     const statuses = [

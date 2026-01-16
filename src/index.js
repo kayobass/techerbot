@@ -1,6 +1,10 @@
 require("dotenv").config();
 
-const { Client, Events, GatewayIntentBits } = require("discord.js");
+const {
+  Client,
+  GatewayIntentBits,
+  SlashCommandBuilder,
+} = require("discord.js");
 const loadCommands = require("./handler/commandHandler");
 const loadEvents = require("./handler/eventHandler");
 const connectDB = require("./database/mongodb");
