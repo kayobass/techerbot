@@ -7,6 +7,7 @@ const {
 } = require("discord.js");
 const ModLog = require("../../database/model/modLog");
 const color = require("../../color.json");
+const cleanupUserMessages = require("../../utils/cleanupUserMessages");
 
 module.exports = {
   name: "ban",
@@ -22,7 +23,7 @@ module.exports = {
 
     if (!user) {
       return message.reply(
-        "❌ Você precisa mencionar um usuário ou informar o ID."
+        "❌ Você precisa mencionar um usuário ou informar o ID.",
       );
     }
 
@@ -45,7 +46,7 @@ module.exports = {
 
       if (userPosition >= staffPosition) {
         return message.reply(
-          "❌ Você não pode banir alguém com cargo igual ou maior que o seu."
+          "❌ Você não pode banir alguém com cargo igual ou maior que o seu.",
         );
       }
     }
@@ -58,7 +59,7 @@ module.exports = {
       .setDescription(
         `Tem certeza que deseja banir <@${user.id}> (\`${user.id}\`)?\n` +
           `**Motivo:** \`${reason}\`\n\n` +
-          `⏳ Restam <t:${expiresAt}:R> para tomar uma decisão.`
+          `⏳ Restam <t:${expiresAt}:R> para tomar uma decisão.`,
       )
       .setThumbnail(user.displayAvatarURL())
       .setColor(color.ban)
@@ -75,7 +76,7 @@ module.exports = {
       new ButtonBuilder()
         .setCustomId("ban_cancel")
         .setLabel("Cancelar")
-        .setStyle(ButtonStyle.Danger)
+        .setStyle(ButtonStyle.Danger),
     );
 
     const sent = await message.reply({
@@ -103,11 +104,11 @@ module.exports = {
           staffId: staff.id,
           reason,
           guildId: message.guild.id,
-        }).then(() => {
+        }).then(async () => {
           const embedLog = new EmbedBuilder()
             .setTitle("📝 Registro de Moderação - Ban")
             .setDescription(
-              `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``
+              `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``,
             )
             .setColor(color.ban)
             .setThumbnail(user.displayAvatarURL())
@@ -133,7 +134,7 @@ module.exports = {
           })
           .setColor(color.ban)
           .setDescription(
-            `O usuário <@${user.id}> (\`${user.id}\`) foi banido!\n**💼 Motivo:** \`${reason}\``
+            `O usuário <@${user.id}> (\`${user.id}\`) foi banido!\n**💼 Motivo:** \`${reason}\``,
           )
           .setFooter({
             text: `${user.globalName} está banido`,
@@ -142,6 +143,7 @@ module.exports = {
           .setTimestamp();
 
         await sent.edit({ embeds: [successEmbed], components: [] });
+        await cleanupUserMessages(message.guild, user.id);
       }
 
       if (interaction.customId === "ban_cancel") {
