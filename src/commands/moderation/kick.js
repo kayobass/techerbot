@@ -22,7 +22,7 @@ module.exports = {
 
     if (!user) {
       return message.reply(
-        "❌ Você precisa mencionar um usuário ou informar o ID."
+        "❌ Você precisa mencionar um usuário ou informar o ID.",
       );
     }
 
@@ -43,7 +43,7 @@ module.exports = {
 
     if (userPosition >= staffPosition) {
       return message.reply(
-        "❌ Você não pode expulsar alguém com cargo igual ou maior que o seu."
+        "❌ Você não pode expulsar alguém com cargo igual ou maior que o seu.",
       );
     }
 
@@ -56,7 +56,7 @@ module.exports = {
       .setDescription(
         `Tem certeza que deseja expulsar <@${user.id}> (\`${user.id}\`)?\n` +
           `**💼 Motivo:** \`${reason}\`\n\n` +
-          `⏳ Restam <t:${expiresAt}:R> para tomar uma decisão.`
+          `⏳ Restam <t:${expiresAt}:R> para tomar uma decisão.`,
       )
       .setThumbnail(user.displayAvatarURL())
       .setColor(color.kick)
@@ -73,13 +73,15 @@ module.exports = {
       new ButtonBuilder()
         .setCustomId("kick_cancel")
         .setLabel("Cancelar")
-        .setStyle(ButtonStyle.Danger)
+        .setStyle(ButtonStyle.Danger),
     );
 
     const sent = await message.reply({
       embeds: [confirmEmbed],
       components: [row],
     });
+
+    const username = user.globalName || user.username;
 
     const collector = sent.createMessageComponentCollector({
       filter: (i) => i.user.id === staff.id,
@@ -105,7 +107,7 @@ module.exports = {
           const embedLog = new EmbedBuilder()
             .setTitle("📝 Registro de Moderação - Kick")
             .setDescription(
-              `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``
+              `**🎠 Usuário:** <@${user.id}> | \`${user.id}\` (*${username}*) \n\n**🦺 Staff:** <@${staff.id}> | \`${staff.id}\` (*${staff.user.globalName}*) \n\n**💼 Motivo:** \`${reason}\``,
             )
             .setColor(color.kick)
             .setThumbnail(user.displayAvatarURL())
@@ -131,10 +133,10 @@ module.exports = {
           })
           .setColor(color.kick)
           .setDescription(
-            `O usuário <@${user.id}> (\`${user.id}\`) foi expulso!\n**💼 Motivo:** \`${reason}\``
+            `O usuário <@${user.id}> (\`${user.id}\`) foi expulso!\n**💼 Motivo:** \`${reason}\``,
           )
           .setFooter({
-            text: `${user.globalName} está expulso`,
+            text: `${username} está expulso`,
             iconURL: user.displayAvatarURL(),
           })
           .setTimestamp();

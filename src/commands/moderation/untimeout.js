@@ -16,7 +16,7 @@ module.exports = {
 
     if (!user) {
       return message.reply(
-        "❌ Você precisa mencionar um usuário ou informar o ID."
+        "❌ Você precisa mencionar um usuário ou informar o ID.",
       );
     }
 
@@ -39,6 +39,7 @@ module.exports = {
     }
 
     const reason = args.slice(1).join(" ") || "Sem motivo";
+    const username = user.globalName || user.username;
 
     await member
       .timeout(null, `${staff.user.username} -> ${reason}`)
@@ -55,9 +56,7 @@ module.exports = {
     const embedLog = new EmbedBuilder()
       .setTitle("📝 Registro de Moderação - UnTimeout")
       .setDescription(
-        `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n` +
-          `**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n` +
-          `**💼 Motivo:** \`${reason}\``
+        `**🎠 Usuário:** <@${user.id}> | \`${user.id}\` (*${username}*) \n\n**🦺 Staff:** <@${staff.id}> | \`${staff.id}\` (*${staff.user.globalName}*) \n**💼 Motivo:** \`${reason}\``,
       )
       .setColor(color.timeout)
       .setThumbnail(user.displayAvatarURL())
@@ -82,11 +81,11 @@ module.exports = {
       })
       .setColor(color.timeout)
       .setDescription(
-        `O timeout do usuário <@${user.id}> (\`${user.id}\`) foi removido!\n` +
-          `**💼 Motivo:** \`${reason}\``
+        `O timeout do usuário <@${user.id}> (\`${user.id}\`) foi removido!\n\n` +
+          `**💼 Motivo:** \`${reason}\``,
       )
       .setFooter({
-        text: `${user.globalName} foi liberado`,
+        text: `${username} foi desmutado`,
         iconURL: user.displayAvatarURL(),
       })
       .setTimestamp();

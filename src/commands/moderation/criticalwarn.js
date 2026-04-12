@@ -17,7 +17,7 @@ module.exports = {
 
     if (!user) {
       return message.reply(
-        "❌ Você precisa mencionar um usuário ou informar o ID."
+        "❌ Você precisa mencionar um usuário ou informar o ID.",
       );
     }
 
@@ -32,10 +32,11 @@ module.exports = {
     const member = message.guild.members.cache.get(user.id);
     const staffPosition = staff.roles.highest.position;
     const userPosition = member.roles.highest.position;
+    const username = user.globalName || user.username;
 
     if (userPosition >= staffPosition) {
       return message.reply(
-        "❌ Você não pode dar warn em alguém com cargo igual ou maior que o seu."
+        "❌ Você não pode dar warn em alguém com cargo igual ou maior que o seu.",
       );
     }
 
@@ -76,7 +77,7 @@ module.exports = {
       const embedLog = new EmbedBuilder()
         .setTitle("📝 Registro de Moderação - Critical Warn")
         .setDescription(
-          `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`) [\`${userData.warns.length}\` warns]\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**Motivo:** \`${reason}\``
+          `**🎠 Usuário:** <@${user.id}> | \`${user.id}\` (*${username}*) [\`${userData.warns.length}\` warns] \n\n**🦺 Staff:** <@${staff.id}> | \`${staff.id}\` (*${staff.user.globalName}*) \n\n**💼 Motivo:** \`${reason}\``,
         )
         .setColor(color.criticalwarn)
         .setThumbnail(user.displayAvatarURL())
@@ -111,7 +112,7 @@ module.exports = {
       .setTitle("⚠️ Critical Warn")
       .setColor(color.criticalwarn)
       .setDescription(
-        `-> O usuário <@${user.id}> (\`${user.id}\`) recebeu um **critical warn**!\n**💼 Motivo:** \`${reason}\``
+        `-> O usuário <@${user.id}> (\`${user.id}\`) recebeu um **critical warn**!\n**💼 Motivo:** \`${reason}\``,
       )
       .setFooter({
         text: `Esse é o warn número: ${userData.warns.length}`,

@@ -20,6 +20,7 @@ module.exports = {
 
     const banList = await message.guild.bans.fetch().catch(() => null);
     const bannedUser = banList?.get(userId);
+    const username = user.globalName || user.username;
 
     if (!bannedUser) {
       return message.reply("❌ Esse usuário não está banido neste servidor.");
@@ -39,7 +40,7 @@ module.exports = {
       const embedLog = new EmbedBuilder()
         .setTitle("📝 Registro de Moderação - Unban")
         .setDescription(
-          `**🦺 Usuário:** <@${userId}> (\`${userId}\`)\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``
+          `**🎠 Usuário:** <@${user.id}> | \`${user.id}\` (*${username}*) \n\n**🦺 Staff:** <@${staff.id}> | \`${staff.id}\` (*${staff.user.globalName}*) \n**💼 Motivo:** \`${reason}\``,
         )
         .setColor(color.ban)
         .setFooter({
@@ -64,7 +65,7 @@ module.exports = {
       })
       .setColor(color.ban)
       .setDescription(
-        `O usuário <@${userId}> (\`${userId}\`) foi desbanido!\n**💼 Motivo:** \`${reason}\``
+        `O usuário <@${userId}> (\`${userId}\`) foi desbanido!\n**💼 Motivo:** \`${reason}\``,
       )
       .setTimestamp();
 

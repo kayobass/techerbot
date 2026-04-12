@@ -22,7 +22,7 @@ module.exports = {
 
     if (!user) {
       return message.reply(
-        "❌ Você precisa mencionar um usuário ou informar o ID."
+        "❌ Você precisa mencionar um usuário ou informar o ID.",
       );
     }
 
@@ -42,7 +42,7 @@ module.exports = {
 
       if (userPosition >= staffPosition) {
         return message.reply(
-          "❌ Você não pode castigar alguém com cargo igual ou maior que o seu."
+          "❌ Você não pode castigar alguém com cargo igual ou maior que o seu.",
         );
       }
     }
@@ -55,7 +55,7 @@ module.exports = {
       .setDescription(
         `Escolha o tempo para o timeout de <@${user.id}> (\`${user.id}\`).\n` +
           `**Motivo:** \`${reason}\`\n\n` +
-          `⏳ Restam <t:${expiresAt}:R> para tomar uma decisão.`
+          `⏳ Restam <t:${expiresAt}:R> para tomar uma decisão.`,
       )
       .setThumbnail(user.displayAvatarURL())
       .setColor(color.timeout)
@@ -80,7 +80,7 @@ module.exports = {
       new ButtonBuilder()
         .setCustomId("7d")
         .setLabel("7 Dias")
-        .setStyle(ButtonStyle.Primary)
+        .setStyle(ButtonStyle.Primary),
     );
 
     const sent = await message.reply({
@@ -126,7 +126,7 @@ module.exports = {
           .setColor(color.timeout)
           .setDescription(
             `O usuário <@${user.id}> (\`${user.id}\`) recebeu timeout de **${duration}**.\n` +
-              `**💼 Motivo:** \`${reason}\``
+              `**💼 Motivo:** \`${reason}\``,
           )
           .setTimestamp();
 
@@ -141,7 +141,7 @@ module.exports = {
         .setDescription(
           `O usuário <@${user.id}> (\`${user.id}\`) já possui um timeout ativo.\n\n` +
             `Deseja realmente **alterar o tempo do timeout**?\n\n` +
-            `⏳ Esta ação expira <t:${overwriteExpiresAt}:R>.`
+            `⏳ Esta ação expira <t:${overwriteExpiresAt}:R>.`,
         )
         .setColor(color.timeout)
         .setFooter({
@@ -153,7 +153,7 @@ module.exports = {
         new ButtonBuilder()
           .setCustomId("timeout_overwrite_confirm")
           .setLabel("CONFIRMAR")
-          .setStyle(ButtonStyle.Success)
+          .setStyle(ButtonStyle.Success),
       );
 
       await sent.edit({
@@ -184,7 +184,7 @@ module.exports = {
           .setColor(color.timeout)
           .setDescription(
             `O timeout do usuário <@${user.id}> (\`${user.id}\`) foi atualizado para **${duration}**.\n` +
-              `**💼 Motivo:** \`${reason}\``
+              `**💼 Motivo:** \`${reason}\``,
           )
           .setTimestamp();
 
@@ -216,10 +216,10 @@ async function applyTimeout({ member, user, staff, reason, duration, guild }) {
   const embedLog = new EmbedBuilder()
     .setTitle("📝 Registro de Moderação - Timeout")
     .setDescription(
-      `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n` +
-        `**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n` +
-        `**⏱ Tempo:** \`${duration}\`\n` +
-        `**💼 Motivo:** \`${reason}\``
+      `**🎠 Usuário:** <@${user.id}> | \`${user.id}\` (*${user.globalName || user.username}*)\n\n` +
+        `**⚔ Staff:** <@${staff.id}> | \`${staff.id}\` (*${staff.user.globalName}*)\n\n` +
+        `**⏱ Tempo:** \`${duration}\`\n\n` +
+        `**💼 Motivo:** \`${reason}\``,
     )
     .setColor(color.timeout)
     .setThumbnail(user.displayAvatarURL())

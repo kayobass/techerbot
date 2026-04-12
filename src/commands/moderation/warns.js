@@ -15,10 +15,11 @@ module.exports = {
 
     if (!user || user.bot) {
       return message.reply(
-        "❌ Você precisa mencionar um usuário ou informar o ID."
+        "❌ Você precisa mencionar um usuário ou informar o ID.",
       );
     }
 
+    const username = user.globalName || user.username;
     const userData = await UserWarn.findOne({
       userId: user.id,
       guildId: message.guild.id,
@@ -26,14 +27,14 @@ module.exports = {
 
     if (!userData || userData.warns.length === 0) {
       return message.reply(
-        `O usuário \`${user.globalName}\` não possui warns.`
+        `O usuário \`${user.globalName}\` não possui warns.`,
       );
     }
 
     const warnsDescription = userData.warns
       .map((w, i) => {
         const timestamp = `<t:${Math.floor(
-          new Date(w.createdAt).getTime() / 1000
+          new Date(w.createdAt).getTime() / 1000,
         )}:F>`;
         return `**#${i + 1}** | Autor: <@${w.staffId}> | Motivo: \`${
           w.reason
@@ -42,7 +43,7 @@ module.exports = {
       .join("\n");
 
     const embed = new EmbedBuilder()
-      .setTitle(`📄 Warns de ${user.globalName.toUpperCase()}`)
+      .setTitle(`📄 Warns de ${username.toUpperCase()}`)
       .setDescription(warnsDescription)
       .setThumbnail(user.displayAvatarURL())
       .setColor(color.default)

@@ -84,6 +84,8 @@ module.exports = {
       components: [row],
     });
 
+    const username = user.globalName || user.username;
+
     const collector = sent.createMessageComponentCollector({
       filter: (i) => i.user.id === staff.id,
       time: 30_000,
@@ -108,7 +110,7 @@ module.exports = {
           const embedLog = new EmbedBuilder()
             .setTitle("📝 Registro de Moderação - Ban")
             .setDescription(
-              `**🦺 Usuário:** <@${user.id}> (\`${user.id}\`)\n**⚔ Staff:** <@${staff.id}> (\`${staff.id}\`)\n**💼 Motivo:** \`${reason}\``,
+              `**🎠 Usuário:** <@${user.id}> | \`${user.id}\` (*${username}*) \n\n**🦺 Staff:** <@${staff.id}> | \`${staff.id}\` (*${staff.user.globalName}*) \n**💼 Motivo:** \`${reason}\``,
             )
             .setColor(color.ban)
             .setThumbnail(user.displayAvatarURL())
@@ -137,7 +139,7 @@ module.exports = {
             `O usuário <@${user.id}> (\`${user.id}\`) foi banido!\n**💼 Motivo:** \`${reason}\``,
           )
           .setFooter({
-            text: `${user.globalName} está banido`,
+            text: `${username} está banido`,
             iconURL: user.displayAvatarURL(),
           })
           .setTimestamp();
