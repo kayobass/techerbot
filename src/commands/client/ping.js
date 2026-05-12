@@ -15,7 +15,7 @@ module.exports = {
 
   async execute(client, message) {
     const latencyText = new TextDisplayBuilder().setContent(
-      "🏓 Pong! Calculando latências..."
+      "🏓 Pong! Calculando latências...",
     );
 
     const sent = await message.reply({
@@ -45,7 +45,7 @@ module.exports = {
     }
 
     const title = new TextDisplayBuilder().setContent(
-      "### Latências do Sistema"
+      "### Latências do Sistema",
     );
 
     const separator = new SeparatorBuilder().setDivider(true);
@@ -53,7 +53,8 @@ module.exports = {
     const text = new TextDisplayBuilder().setContent(
       `- Latência REST do Discord: \`${restLatency.toFixed(2)}\`ms
 - Latência do Discord Gateway (WS): \`${wsLatency}\`ms
-- Tempo de resposta da Base de Dados: \`${dbLatency}\`ms`
+- Tempo de resposta da Base de Dados: \`${dbLatency}\`ms
+- Uptime do Bot: <t:${Math.floor((Date.now() - client.uptime) / 1000)}:R>`,
     );
 
     const container = new ContainerBuilder()
