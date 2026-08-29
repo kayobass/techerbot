@@ -8,20 +8,19 @@ module.exports = {
     console.log(`✅ ${client.user.tag} está online!`);
 
     const statuses = [
-      { type: 0, text: "🎮 Sky Tech" },
+      { type: 0, text: "🎮 Booleanos" },
       { type: 2, text: "🎧 Meu prefixo 't.'" },
       {
         type: 3,
-        text: "👀 Os membros do servidor Sky Tech",
+        text: "👀 Estou de olho nos membros do servidor Booleanos",
       },
       { type: 0, text: "💻 Desenvolvido por Kayobass" },
-      { type: 2, text: "🛠️ Comandos do Sky Tech Bot" },
-      { type: 3, text: "🌟 O Sky Tech crescendo!" },
+      { type: 3, text: "🌟 O Booleanos crescendo!" },
       { type: 0, text: "🛡️ Para manter o servidor seguro" },
-      { type: 2, text: "👂 Sua moderação com atenção" },
+      { type: 2, text: "👂 Eu não vou dominar o mundo" },
       {
         type: 3,
-        text: "🎉 Os usuários se divertirem no Sky Tech",
+        text: "🎉 Os usuários se divertirem na Booleanos",
       },
     ];
 
