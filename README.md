@@ -1,5 +1,7 @@
 # 🤖 Techer — Discord Moderation Bot
 
+> ⚠ **PROJETO DESCONTINUADO! (Discontinued Project)**
+
 **Techer** é um bot de **moderação e segurança** desenvolvido especificamente para o **meu servidor privado**, com foco em controle administrativo, logs detalhados e proteção contra abusos.  
 O código foi disponibilizado **publicamente** para que qualquer pessoa possa estudar, adaptar ou usar como base para seu próprio bot.
 
